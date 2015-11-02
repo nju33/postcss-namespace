@@ -1,0 +1,9 @@
+.thing_box {
+  width: 5em;
+  height: 5em
+}
+
+.thing_inner {
+  width: 1em;
+  mragin: 0 auto;
+}

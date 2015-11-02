@@ -1,0 +1,9 @@
+.thing-box {
+  width: 5em;
+  height: 5em
+}
+
+.thing-inner {
+  width: 1em;
+  mragin: 0 auto;
+}
