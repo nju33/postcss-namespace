@@ -14,7 +14,7 @@ set = (dir) ->
   style: fs.readFileSync stylePath, 'utf-8'
   answer: fs.readFileSync answerPath, 'utf-8'
 
-describe 'postcss-cson-cssvars', ->
+describe 'postcss-namespace', ->
   it 'expect concat chain token', ->
     {style, answer} = set 'chain'
 
