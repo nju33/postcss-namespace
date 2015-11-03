@@ -31,7 +31,7 @@
     "url": "git@github.com:totora0155/postcss-namespace.git"
   },
   "scripts": {
-    "watch": "coffee -c src/index.coffee -o ./",
+    "build": "coffee -o ./ -c src/index.coffee",
     "test": " mocha --compilers \"--compilers coffee:coffee-script/register\"  test/*"
   }
 }
