@@ -5,7 +5,7 @@ postcss       = require 'postcss'
 
 namespace = postcss.plugin 'postcss-namespace', (opts) ->
   if not opts?
-    opts = {case: '-'}
+    opts = {token: '-'}
 
   (css) ->
     namespaces = []
@@ -31,7 +31,7 @@ namespace = postcss.plugin 'postcss-namespace', (opts) ->
         re = /^([#\.])([^\s\[]+)/g
         handler = (m, idOrClass, name) ->
           if target.namespace
-            idOrClass + target.namespace + opts.case + name
+            idOrClass + target.namespace + opts.token + name
           else
             idOrClass + name
 

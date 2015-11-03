@@ -11,7 +11,7 @@ npm i -D postcss # if still
 
 ## Usage
 
-Add `@namespace` atrule
+Write `@namespace` atrule to your css.
 (e.g. input.css)
 ```css
 @namespace thing;
@@ -24,6 +24,29 @@ Add `@namespace` atrule
   width: 1em;
   mragin: 0 auto;
 }
+
+@namespace ;
+.box {
+  width: 3em;
+  height: 3em;
+}
+
+.inner {
+  width: .5em;
+  mragin: 0 auto;
+}
+
+@namespace thing2;
+.box {
+  width: 8em;
+  height: 8em;
+}
+
+.inner {
+  width: 3em;
+  mragin: 0 auto;
+}
+
 
 ```
 
@@ -45,12 +68,30 @@ console.log(output);
  *
  *   .thing__box {
  *     width: 5em;
- *     height: 5em;
+ *     height: 5em
  *   }
  *
  *   .thing__inner {
  *     width: 1em;
- *     margin: 0 auto;
+ *     mragin: 0 auto;
+ *   }
+ *   .box {
+ *     width: 3em;
+ *     height: 3em;
+ *   }
+ *
+ *   .inner {
+ *     width: .5em;
+ *     mragin: 0 auto;
+ *   }
+ *   .thing2__box {
+ *     width: 8em;
+ *     height: 8em;
+ *   }
+ *
+ *   .thing2__inner {
+ *     width: 3em;
+ *     mragin: 0 auto;
  *   }
  *
  */
@@ -58,6 +99,6 @@ console.log(output);
 
 ## Options
 
-- `case`  
-  Token for consolidate(e.g.) `namespace({case: '__'})`  
+- `token`  
+  Token for consolidate(e.g.) `namespace({token: '__'})`  
   By default, it is `-`

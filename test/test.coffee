@@ -15,32 +15,32 @@ set = (dir) ->
   answer: fs.readFileSync answerPath, 'utf-8'
 
 describe 'postcss-cson-cssvars', ->
-  it 'expect concat chain', ->
+  it 'expect concat chain token', ->
     {style, answer} = set 'chain'
 
     result = postcss([namespace]).process(style)
     expect(result.css).to.equal(answer)
 
-  it 'expect concat scake', ->
+  it 'expect concat scake token', ->
     {style, answer} = set 'snake'
 
-    result = postcss([namespace {case: '_'}]).process(style)
+    result = postcss([namespace {token: '_'}]).process(style)
     expect(result.css).to.equal(answer)
 
-  it 'expect concat bem', ->
+  it 'expect concat bem token', ->
     {style, answer} = set 'bem'
 
-    result = postcss([namespace {case: '__'}]).process(style)
+    result = postcss([namespace {token: '__'}]).process(style)
     expect(result.css).to.equal(answer)
 
   it 'expect concat when multi namespace', ->
     {style, answer} = set 'multi-namespace'
 
-    result = postcss([namespace {case: '__'}]).process(style)
+    result = postcss([namespace {token: '__'}]).process(style)
     expect(result.css).to.equal(answer)
 
   it 'expect concat when empty namespace', ->
     {style, answer} = set 'empty-namespace'
 
-    result = postcss([namespace {case: '__'}]).process(style)
+    result = postcss([namespace {token: '__'}]).process(style)
     expect(result.css).to.equal(answer)
