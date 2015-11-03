@@ -1,7 +1,7 @@
 {
   "name": "postcss-namespace",
   "description": "PostCSS plugin that prefix a namespace to a selector",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": {
     "name": "nju33",
     "email": "sski0155+npm@gmail.com",
@@ -11,11 +11,11 @@
     "url": "https://github.com/totora0155/postcss-namespace/issues"
   },
   "dependencies": {
-    "coffee-script": "^1.10.0",
     "postcss": "^5.0.10"
   },
   "devDependencies": {
     "chai": "^3.4.0",
+    "coffee-script": "^1.10.0",
     "mocha": "^2.3.3"
   },
   "homepage": "https://github.com/totora0155/postcss-namespace#readme",
@@ -31,6 +31,7 @@
     "url": "git@github.com:totora0155/postcss-namespace.git"
   },
   "scripts": {
+    "watch": "coffee -c src/index.coffee -o ./",
     "test": " mocha --compilers \"--compilers coffee:coffee-script/register\"  test/*"
   }
 }
