@@ -32,3 +32,15 @@ describe 'postcss-cson-cssvars', ->
 
     result = postcss([namespace {case: '__'}]).process(style)
     expect(result.css).to.equal(answer)
+
+  it 'expect concat when multi namespace', ->
+    {style, answer} = set 'multi-namespace'
+
+    result = postcss([namespace {case: '__'}]).process(style)
+    expect(result.css).to.equal(answer)
+
+  it 'expect concat when empty namespace', ->
+    {style, answer} = set 'empty-namespace'
+
+    result = postcss([namespace {case: '__'}]).process(style)
+    expect(result.css).to.equal(answer)

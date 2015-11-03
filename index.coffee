@@ -8,18 +8,32 @@ namespace = postcss.plugin 'postcss-namespace', (opts) ->
     opts = {case: '-'}
 
   (css) ->
-    namesapce = null
+    namespaces = []
 
     css.walkAtRules 'namespace', (rule) ->
       namespace = rule.params
+      line = rule.source.start.line
+      if namespaces.length is 0
+        namespaces.push {namespace, line , nextLine: null}
+      else
+        nextLine = rule.source.start.line
+        namespaces[namespaces.length - 1].nextLine = nextLine
+        namespaces.push {namespace, line, nextLine: null}
       rule.remove()
 
-    if namespace?
+    if namespaces.length isnt 0
+      target = namespaces.shift()
+
       css.walkRules (rule) ->
+        if target.nextLine? and target.nextLine < rule.source.start.line
+          target = namespaces.shift()
         selector = rule.selector
         re = /^([#\.])([^\s\[]+)/g
         handler = (m, idOrClass, name) ->
-          idOrClass + namespace + opts.case + name
+          if target.namespace
+            idOrClass + target.namespace + opts.case + name
+          else
+            idOrClass + name
 
         rule.selector = selector.replace re, handler
 
