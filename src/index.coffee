@@ -32,13 +32,28 @@ namespace = postcss.plugin 'postcss-namespace', (opts) ->
 
         if target.line < currentLine
           selector = rule.selector
-          re = /^([#\.])([^\s\[]+)/g
+          re = /[^>]+/g
+          result = ''
           handler = (m, idOrClass, name) ->
             if target.namespace
               idOrClass + target.namespace + opts.token + name
             else
               idOrClass + name
 
-          rule.selector = selector.replace re, handler
+          while (matched = re.exec selector)?
+            rToken = /&?\s*(\.|#)/
+            if matched.index is 0 or matched[0][0] is '&'
+              result += matched[0].replace rToken, (m, selectorToken) ->
+                if target.namespace
+                  selectorToken + target.namespace + opts.token
+                else
+                  selectorToken
+            else
+              result += '>' + matched[0]
+
+          rule.selector =
+            if result then result
+            else selector.replace /(\.|#)/, (selectorToken) ->
+              selectorToken + target.namespace + opts.token
 
 module.exports = namespace

@@ -43,14 +43,15 @@
       if (namespaces.length !== 0) {
         target = namespaces.shift();
         return css.walkRules(function(rule) {
-          var currentLine, handler, re, selector;
+          var currentLine, handler, matched, rToken, re, result, selector;
           currentLine = rule.source.start.line;
           if ((target.nextLine != null) && target.nextLine < currentLine) {
             target = namespaces.shift();
           }
           if (target.line < currentLine) {
             selector = rule.selector;
-            re = /^([#\.])([^\s\[]+)/g;
+            re = /[^>]+/g;
+            result = '';
             handler = function(m, idOrClass, name) {
               if (target.namespace) {
                 return idOrClass + target.namespace + opts.token + name;
@@ -58,7 +59,23 @@
                 return idOrClass + name;
               }
             };
-            return rule.selector = selector.replace(re, handler);
+            while ((matched = re.exec(selector)) != null) {
+              rToken = /&?\s*(\.|#)/;
+              if (matched.index === 0 || matched[0][0] === '&') {
+                result += matched[0].replace(rToken, function(m, selectorToken) {
+                  if (target.namespace) {
+                    return selectorToken + target.namespace + opts.token;
+                  } else {
+                    return selectorToken;
+                  }
+                });
+              } else {
+                result += '>' + matched[0];
+              }
+            }
+            return rule.selector = result ? result : selector.replace(/(\.|#)/, function(selectorToken) {
+              return selectorToken + target.namespace + opts.token;
+            });
           }
         });
       }

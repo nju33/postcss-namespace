@@ -1,0 +1,21 @@
+@namespace class;
+
+.l1 .l2 {
+  padding: 0;
+}
+
+.l1 >& .l2 {
+  padding: 1px;
+}
+
+.l1 .l2 >& .l3 {
+  padding: 2px;
+}
+
+.l1 > .l2 >& .l3 {
+  padding: 3px;
+}
+
+.l1:hover >& .l2 > #l3 {
+  padding: 4px;
+}
