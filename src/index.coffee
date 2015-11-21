@@ -40,6 +40,9 @@ namespace = postcss.plugin 'postcss-namespace', (opts) ->
             else
               idOrClass + name
 
+          if selector[0] is '&'
+            return
+
           while (matched = re.exec selector)?
             rToken = /&?\s*(\.|#)/
             if matched.index is 0 or matched[0][0] is '&'

@@ -51,6 +51,9 @@ Write `@namespace` atrule to your css.
   mragin: 0 auto;
 }
 
+&:hover {
+  border: 1px solid;
+}
 
 ```
 
@@ -101,6 +104,10 @@ console.log(output);
  *     width: 3em;
  *     mragin: 0 auto;
  *   }
+ *
+ * 	 &:hover {
+ *     border: 1px solid;
+ * 	 }
  *
  */
 ```

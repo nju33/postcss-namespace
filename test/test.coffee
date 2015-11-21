@@ -56,3 +56,9 @@ describe 'postcss-namespace', ->
 
     result = postcss([namespace {token: '__'}]).process(style)
     expect(result.css).to.equal(answer)
+
+  it 'expect ignore pattern', ->
+    {style, answer} = set 'ignore-pattern'
+
+    result = postcss([namespace {token: '__'}]).process(style)
+    expect(result.css).to.equal(answer)

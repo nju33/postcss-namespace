@@ -59,6 +59,9 @@
                 return idOrClass + name;
               }
             };
+            if (selector[0] === '&') {
+              return;
+            }
             while ((matched = re.exec(selector)) != null) {
               rToken = /&?\s*(\.|#)/;
               if (matched.index === 0 || matched[0][0] === '&') {
