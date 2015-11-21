@@ -66,7 +66,7 @@ var namespace = require('postcss-namespace');
 var css = fs.readFileSync('input.css', 'utf8');
 
 var output = postcss()
-  .use(namespace({case: '__'}))
+  .use(namespace({token: '__'}))
   .process(css)
   .css;
 
