@@ -14,7 +14,7 @@ npm i -D postcss # if still
 Write `@namespace` atrule to your css.
 (e.g. input.css)
 ```css
-@namespace thing;
+@namespace block;
 .box {
   width: 5em;
   height: 5em
@@ -23,6 +23,10 @@ Write `@namespace` atrule to your css.
 .inner {
   width: 1em;
   mragin: 0 auto;
+}
+
+.l1:hover >& .l2 > #l3 {
+  color: orange;
 }
 
 @namespace ;
@@ -36,7 +40,7 @@ Write `@namespace` atrule to your css.
   mragin: 0 auto;
 }
 
-@namespace thing2;
+@namespace block2;
 .box {
   width: 8em;
   height: 8em;
@@ -66,14 +70,18 @@ var output = postcss()
 console.log(output);
 /* output:
  *
- *   .thing__box {
+ *   .block__box {
  *     width: 5em;
  *     height: 5em
  *   }
  *
- *   .thing__inner {
+ *   .block__inner {
  *     width: 1em;
  *     mragin: 0 auto;
+ *   }
+
+ *   .block__l1:hover .block__l2 > #l3 {
+ *     color: orange;
  *   }
  *   .box {
  *     width: 3em;
@@ -84,18 +92,23 @@ console.log(output);
  *     width: .5em;
  *     mragin: 0 auto;
  *   }
- *   .thing2__box {
+ *   .block2__box {
  *     width: 8em;
  *     height: 8em;
  *   }
  *
- *   .thing2__inner {
+ *   .block2__inner {
  *     width: 3em;
  *     mragin: 0 auto;
  *   }
  *
  */
 ```
+
+## Syntax
+
+- `>&`
+  prefix a namespace for child selector. (e.g.) `.class1 >& .class2`
 
 ## Options
 
