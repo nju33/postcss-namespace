@@ -6,6 +6,14 @@ postcss       = require 'postcss'
 namespace = postcss.plugin 'postcss-namespace', (opts) ->
   if not opts?
     opts = {token: '-'}
+  rToken = /&?\s*(\.|#)/
+
+  prefix = (selector, namespace) ->
+    if namespace
+      selector.replace rToken, (m, selectorToken) ->
+        selectorToken + namespace + opts.token
+    else
+      selectorToken
 
   (css) ->
     namespaces = []
@@ -40,23 +48,22 @@ namespace = postcss.plugin 'postcss-namespace', (opts) ->
             else
               idOrClass + name
 
-          if selector[0] is '&'
+          if /^&\s*(?:\.|#)/.test  selector
             return
 
           while (matched = re.exec selector)?
-            rToken = /&?\s*(\.|#)/
-            if matched.index is 0 or matched[0][0] is '&'
-              result += matched[0].replace rToken, (m, selectorToken) ->
-                if target.namespace
-                  selectorToken + target.namespace + opts.token
-                else
-                  selectorToken
+            if matched.index isnt 0
+              if matched[0][0] is '&'
+                result += prefix matched[0], target.namespace
+              else
+                result += '>' + matched[0]
             else
-              result += '>' + matched[0]
+              if not /^\s*&/.test matched[0][0]
+                if target.namespace
+                  result += prefix matched[0], target.namespace
+                else
+                  result += matched[0]
 
-          rule.selector =
-            if result then result
-            else selector.replace /(\.|#)/, (selectorToken) ->
-              selectorToken + target.namespace + opts.token
+          rule.selector = result
 
 module.exports = namespace

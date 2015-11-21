@@ -11,11 +11,22 @@
   postcss = require('postcss');
 
   namespace = postcss.plugin('postcss-namespace', function(opts) {
+    var prefix, rToken;
     if (opts == null) {
       opts = {
         token: '-'
       };
     }
+    rToken = /&?\s*(\.|#)/;
+    prefix = function(selector, namespace) {
+      if (namespace) {
+        return selector.replace(rToken, function(m, selectorToken) {
+          return selectorToken + namespace + opts.token;
+        });
+      } else {
+        return selectorToken;
+      }
+    };
     return function(css) {
       var namespaces, target;
       namespaces = [];
@@ -43,7 +54,7 @@
       if (namespaces.length !== 0) {
         target = namespaces.shift();
         return css.walkRules(function(rule) {
-          var currentLine, handler, matched, rToken, re, result, selector;
+          var currentLine, handler, matched, re, result, selector;
           currentLine = rule.source.start.line;
           if ((target.nextLine != null) && target.nextLine < currentLine) {
             target = namespaces.shift();
@@ -59,26 +70,27 @@
                 return idOrClass + name;
               }
             };
-            if (selector[0] === '&') {
+            if (/^&\s*(?:\.|#)/.test(selector)) {
               return;
             }
             while ((matched = re.exec(selector)) != null) {
-              rToken = /&?\s*(\.|#)/;
-              if (matched.index === 0 || matched[0][0] === '&') {
-                result += matched[0].replace(rToken, function(m, selectorToken) {
-                  if (target.namespace) {
-                    return selectorToken + target.namespace + opts.token;
-                  } else {
-                    return selectorToken;
-                  }
-                });
+              if (matched.index !== 0) {
+                if (matched[0][0] === '&') {
+                  result += prefix(matched[0], target.namespace);
+                } else {
+                  result += '>' + matched[0];
+                }
               } else {
-                result += '>' + matched[0];
+                if (!/^\s*&/.test(matched[0][0])) {
+                  if (target.namespace) {
+                    result += prefix(matched[0], target.namespace);
+                  } else {
+                    result += matched[0];
+                  }
+                }
               }
             }
-            return rule.selector = result ? result : selector.replace(/(\.|#)/, function(selectorToken) {
-              return selectorToken + target.namespace + opts.token;
-            });
+            return rule.selector = result;
           }
         });
       }
