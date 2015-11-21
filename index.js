@@ -43,20 +43,23 @@
       if (namespaces.length !== 0) {
         target = namespaces.shift();
         return css.walkRules(function(rule) {
-          var handler, re, selector;
-          if ((target.nextLine != null) && target.nextLine < rule.source.start.line) {
+          var currentLine, handler, re, selector;
+          currentLine = rule.source.start.line;
+          if ((target.nextLine != null) && target.nextLine < currentLine) {
             target = namespaces.shift();
           }
-          selector = rule.selector;
-          re = /^([#\.])([^\s\[]+)/g;
-          handler = function(m, idOrClass, name) {
-            if (target.namespace) {
-              return idOrClass + target.namespace + opts.token + name;
-            } else {
-              return idOrClass + name;
-            }
-          };
-          return rule.selector = selector.replace(re, handler);
+          if (target.line < currentLine) {
+            selector = rule.selector;
+            re = /^([#\.])([^\s\[]+)/g;
+            handler = function(m, idOrClass, name) {
+              if (target.namespace) {
+                return idOrClass + target.namespace + opts.token + name;
+              } else {
+                return idOrClass + name;
+              }
+            };
+            return rule.selector = selector.replace(re, handler);
+          }
         });
       }
     };

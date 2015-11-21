@@ -25,16 +25,20 @@ namespace = postcss.plugin 'postcss-namespace', (opts) ->
       target = namespaces.shift()
 
       css.walkRules (rule) ->
-        if target.nextLine? and target.nextLine < rule.source.start.line
-          target = namespaces.shift()
-        selector = rule.selector
-        re = /^([#\.])([^\s\[]+)/g
-        handler = (m, idOrClass, name) ->
-          if target.namespace
-            idOrClass + target.namespace + opts.token + name
-          else
-            idOrClass + name
+        currentLine = rule.source.start.line
 
-        rule.selector = selector.replace re, handler
+        if target.nextLine? and target.nextLine < currentLine
+          target = namespaces.shift()
+
+        if target.line < currentLine
+          selector = rule.selector
+          re = /^([#\.])([^\s\[]+)/g
+          handler = (m, idOrClass, name) ->
+            if target.namespace
+              idOrClass + target.namespace + opts.token + name
+            else
+              idOrClass + name
+
+          rule.selector = selector.replace re, handler
 
 module.exports = namespace

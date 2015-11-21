@@ -1,0 +1,9 @@
+.class {
+  color: blue;
+}
+
+@namespace parent;
+
+.class {
+  color: red;
+}

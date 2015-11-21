@@ -44,3 +44,9 @@ describe 'postcss-namespace', ->
 
     result = postcss([namespace {token: '__'}]).process(style)
     expect(result.css).to.equal(answer)
+
+  it 'expect before first namespace', ->
+    {style, answer} = set 'before-first-namespace'
+
+    result = postcss([namespace {token: '__'}]).process(style)
+    expect(result.css).to.equal(answer)
