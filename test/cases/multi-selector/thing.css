@@ -1,0 +1,10 @@
+.outside {}
+
+@namespace class;
+
+.box .inside,
+.box2 .outside {}
+.box2 #outside {}
+
+.inside {}
+#inside {}

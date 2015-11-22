@@ -4,6 +4,12 @@ namespace = postcss.plugin 'postcss-namespace', (opts) ->
   if not opts?
     opts = {token: '-'}
 
+  drop = (selector) ->
+    selector.replace(/^.*?(\.|#)/, "$1").replace(/\n/, '')
+
+  getFirst = (selector) ->
+    drop(selector).split(/\s/)[0]
+
   (css) ->
     atNamespace = do ->
       current = 0
@@ -52,13 +58,16 @@ namespace = postcss.plugin 'postcss-namespace', (opts) ->
           namespaceGroup[namespace.name] or= []
 
       if currentLine > namespace.line
-        if not /\s*(?:\.|#)/.test rule.selector
-          return rule
+        selectors = rule.selector.split ','
 
-        first = rule.selector.split(/\s/)[0]
-        namespaceGroup[namespace.name]
-        if not new RegExp(first).test namespaceGroup[namespace.name].join(',')
-          namespaceGroup[namespace.name].push first
+        for selector in selectors
+          if not /\s*(?:\.|#)/.test selector
+            return rule
+
+          first = getFirst selector
+          namespaceGroup[namespace.name]
+          if not new RegExp(first).test namespaceGroup[namespace.name].join(',')
+            namespaceGroup[namespace.name].push first
 
 
     namespace = atNamespace.reset().get()
@@ -78,12 +87,20 @@ namespace = postcss.plugin 'postcss-namespace', (opts) ->
 
         while (matched = re.exec rule.selector)?
           [matched] = matched
-          [selector] = matched.match /[^\s]+$/
+          selector = do ->
+            [replaced] = matched.match /[^\s]+$/
+            replaced.trim()
+          rSelector =
+            if selector[selector.length - 1] is ','
+              new RegExp selector + '?'
+            else
+              new RegExp selector
 
-          if new RegExp(selector).test namespaceGroup[namespace.name].join(',')
+          if rSelector.test namespaceGroup[namespace.name].join(',')
+
             if namespace.name
               result += matched.replace /(\.|#)/, (selectorToken) ->
-                  selectorToken + namespace.name + opts.token
+                selectorToken + namespace.name + opts.token
             else
               result += matched
           else

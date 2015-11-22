@@ -5,13 +5,15 @@
 ## Install
 
 ```
-npm i -D postcss-namespace
-npm i -D postcss # if still
+npm i postcss-namespace
+
+# if still
+npm i postcss
 ```
 
 ## Usage
 
-Write `@namespace` atrule to your css.
+Write `@namespace` atrule to your css file.
 (e.g. input.css)
 ```css
 .outside {}
@@ -21,12 +23,12 @@ Write `@namespace` atrule to your css.
 
 .inner {}
 
-.inner .inside {}
-.inner .outside {}
+.inner .exists {}
 .inner .new {}
+.inner .exists,
+.inner .outside {}
 
-.inside {}
-
+.exists {}
 
 @namespace ;
 .box {}
@@ -38,9 +40,10 @@ Write `@namespace` atrule to your css.
 
 .inner {}
 
+
 ```
 
-Use postcss-namespace plugin in PostCSS
+Use this plugin in PostCSS
 (e.g.)
 ```javascript
 var fs = require('fs');
@@ -54,26 +57,28 @@ var output = postcss()
   .css;
 
 console.log(output);
-/* output:
- *
- *   .outside {}
- *   .block__box {}
- *
- *   .block__inner {}
- *
- *   .block__inner .block__inside {}
- *   .block__inner .outside {}
- *   .block__inner .new {}
- *
- *   .block__inside {}
- *   .box {}
- *
- *   .inner {}
- *   .block2__box {}
- *
- *   .block2__inner {}
- *
- */
+```
+
+Will get `output` like following CSS
+
+```css
+.outside {}
+.block__box {}
+
+.block__inner {}
+
+.block__inner .block__exists {}
+.block__inner .new {}
+.block__inner .block__exists,
+.block__inner .outside {}
+
+.block__exists {}
+.box {}
+
+.inner {}
+.block2__box {}
+
+.block2__inner {}
 ```
 
 ## Options
