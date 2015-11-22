@@ -23,6 +23,7 @@ Write `@namespace` atrule to your css.
 
 .inner .inside {}
 .inner .outside {}
+.inner .new {}
 
 .inside {}
 
@@ -62,6 +63,7 @@ console.log(output);
  *
  *   .block__inner .block__inside {}
  *   .block__inner .outside {}
+ *   .block__inner .new {}
  *
  *   .block__inside {}
  *   .box {}

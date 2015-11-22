@@ -1,7 +1,7 @@
 {
   "name": "postcss-namespace",
   "description": "PostCSS plugin that prefix a namespace to a selector",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "author": {
     "name": "nju33",
     "email": "sski0155+npm@gmail.com",
