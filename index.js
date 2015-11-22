@@ -11,22 +11,11 @@
   postcss = require('postcss');
 
   namespace = postcss.plugin('postcss-namespace', function(opts) {
-    var prefix, rToken;
     if (opts == null) {
       opts = {
         token: '-'
       };
     }
-    rToken = /&?\s*(\.|#)/;
-    prefix = function(selector, namespace) {
-      if (namespace) {
-        return selector.replace(rToken, function(m, selectorToken) {
-          return selectorToken + namespace + opts.token;
-        });
-      } else {
-        return selectorToken;
-      }
-    };
     return function(css) {
       var atNamespace, name1, namespaceGroup;
       atNamespace = (function() {

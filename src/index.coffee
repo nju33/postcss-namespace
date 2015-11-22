@@ -6,14 +6,6 @@ postcss       = require 'postcss'
 namespace = postcss.plugin 'postcss-namespace', (opts) ->
   if not opts?
     opts = {token: '-'}
-  rToken = /&?\s*(\.|#)/
-
-  prefix = (selector, namespace) ->
-    if namespace
-      selector.replace rToken, (m, selectorToken) ->
-        selectorToken + namespace + opts.token
-    else
-      selectorToken
 
   (css) ->
     atNamespace = do ->
