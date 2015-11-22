@@ -16,54 +16,92 @@ namespace = postcss.plugin 'postcss-namespace', (opts) ->
       selectorToken
 
   (css) ->
-    namespaces = []
+    atNamespace = do ->
+      current = 0
+      data = []
+      reset = ->
+        current = 0
+        return @
+      next = ->
+        current++
+        return @
+      get = ->
+        target = data[current]
+        if current?
+          next = data[current+1]
+
+          name: target.name
+          line: target.line
+          nextLine: next?.line
+        else
+          null
+
+      {reset, next, get, data}
+
+    namespaceGroup = {}
 
     css.walkAtRules 'namespace', (rule) ->
-      namespace = rule.params
+      name = rule.params
       line = rule.source.start.line
-      if namespaces.length is 0
-        namespaces.push {namespace, line , nextLine: null}
-      else
-        nextLine = rule.source.start.line
-        namespaces[namespaces.length - 1].nextLine = nextLine
-        namespaces.push {namespace, line, nextLine: null}
+
+      atNamespace.data.push {name, line}
       rule.remove()
 
-    if namespaces.length isnt 0
-      target = namespaces.shift()
+    if atNamespace.data.length is 0
+      return
 
-      css.walkRules (rule) ->
-        currentLine = rule.source.start.line
 
-        if target.nextLine? and target.nextLine < currentLine
-          target = namespaces.shift()
+    namespace = atNamespace.get()
+    namespaceGroup[namespace.name] or= []
+    css.walkRules (rule) ->
+      currentLine = rule.source.start.line
+      return rule if currentLine < namespace.line
 
-        if target.line < currentLine
-          selector = rule.selector
-          re = /[^>]+/g
-          result = ''
-          handler = (m, idOrClass, name) ->
-            if target.namespace
-              idOrClass + target.namespace + opts.token + name
+      if namespace.nextLine? and currentLine > namespace.nextLine
+        while namespace? and currentLine > namespace.nextLine
+          namespace = atNamespace.next().get()
+          namespaceGroup[namespace.name] or= []
+
+      if currentLine > namespace.line
+        if not /\s*(?:\.|#)/.test rule.selector
+          return rule
+
+        first = rule.selector.split(/\s/)[0]
+        namespaceGroup[namespace.name]
+        if not new RegExp(first).test namespaceGroup[namespace.name].join(',')
+          namespaceGroup[namespace.name].push first
+
+
+    namespace = atNamespace.reset().get()
+    css.walkRules (rule) ->
+      currentLine = rule.source.start.line
+      if currentLine < namespace.line
+        return rule
+
+      result = ''
+
+      if namespace.nextLine? and currentLine > namespace.nextLine
+        while namespace? and currentLine > namespace.nextLine
+          namespace = atNamespace.next().get()
+
+      if currentLine > namespace.line
+        re = /\s*(?:>|\+|~)?\s*(\.|#)[^\s]+/g
+
+        while (matched = re.exec rule.selector)?
+          [matched] = matched
+          [selector] = matched.match /[^\s]+$/
+
+          if new RegExp(selector).test namespaceGroup[namespace.name].join(',')
+            if namespace.name
+              result += matched.replace /(\.|#)/, (selectorToken) ->
+                  selectorToken + namespace.name + opts.token
             else
-              idOrClass + name
+              result += matched
+          else
+            result += matched
 
-          if /^&\s*(?:\.|#)/.test  selector
-            return
+      rule.selector = result
+      rule
 
-          while (matched = re.exec selector)?
-            if matched.index isnt 0
-              if matched[0][0] is '&'
-                result += prefix matched[0], target.namespace
-              else
-                result += '>' + matched[0]
-            else
-              if not /^\s*&/.test matched[0][0]
-                if target.namespace
-                  result += prefix matched[0], target.namespace
-                else
-                  result += matched[0]
-
-          rule.selector = result
 
 module.exports = namespace

@@ -1,0 +1,26 @@
+.child3 {}
+
+@namespace class;
+
+.l1 .child1 {
+  padding: 1px;
+}
+
+.l1 > .child2 {
+  padding: 2px;
+}
+
+.l1 + .child2 {
+  padding: 2px;
+}
+
+.l1 ~ .child2 {
+  padding: 2px;
+}
+
+.l1 .child3 {
+  padding: 3px;
+}
+
+.child1 {}
+.child2 {}

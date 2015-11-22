@@ -14,46 +14,28 @@ npm i -D postcss # if still
 Write `@namespace` atrule to your css.
 (e.g. input.css)
 ```css
+.outside {}
+
 @namespace block;
-.box {
-  width: 5em;
-  height: 5em
-}
+.box {}
 
-.inner {
-  width: 1em;
-  mragin: 0 auto;
-}
+.inner {}
 
-.l1:hover >& .l2 > #l3 {
-  color: orange;
-}
+.inner .inside {}
+.inner .outside {}
+
+.inside {}
+
 
 @namespace ;
-.box {
-  width: 3em;
-  height: 3em;
-}
+.box {}
 
-.inner {
-  width: .5em;
-  mragin: 0 auto;
-}
+.inner {}
 
 @namespace block2;
-.box {
-  width: 8em;
-  height: 8em;
-}
+.box {}
 
-.inner {
-  width: 3em;
-  mragin: 0 auto;
-}
-
-&:hover {
-  border: 1px solid;
-}
+.inner {}
 
 ```
 
@@ -73,49 +55,24 @@ var output = postcss()
 console.log(output);
 /* output:
  *
- *   .block__box {
- *     width: 5em;
- *     height: 5em
- *   }
+ *   .outside {}
+ *   .block__box {}
  *
- *   .block__inner {
- *     width: 1em;
- *     mragin: 0 auto;
- *   }
-
- *   .block__l1:hover .block__l2 > #l3 {
- *     color: orange;
- *   }
- *   .box {
- *     width: 3em;
- *     height: 3em;
- *   }
+ *   .block__inner {}
  *
- *   .inner {
- *     width: .5em;
- *     mragin: 0 auto;
- *   }
- *   .block2__box {
- *     width: 8em;
- *     height: 8em;
- *   }
+ *   .block__inner .block__inside {}
+ *   .block__inner .outside {}
  *
- *   .block2__inner {
- *     width: 3em;
- *     mragin: 0 auto;
- *   }
+ *   .block__inside {}
+ *   .box {}
  *
- * 	 &:hover {
- *     border: 1px solid;
- * 	 }
+ *   .inner {}
+ *   .block2__box {}
+ *
+ *   .block2__inner {}
  *
  */
 ```
-
-## Syntax
-
-- `>&`
-  prefix a namespace for child selector. (e.g.) `.class1 >& .class2`
 
 ## Options
 

@@ -28,72 +28,113 @@
       }
     };
     return function(css) {
-      var namespaces, target;
-      namespaces = [];
+      var atNamespace, name1, namespaceGroup;
+      atNamespace = (function() {
+        var current, data, get, next, reset;
+        current = 0;
+        data = [];
+        reset = function() {
+          current = 0;
+          return this;
+        };
+        next = function() {
+          current++;
+          return this;
+        };
+        get = function() {
+          var target;
+          target = data[current];
+          if (current != null) {
+            next = data[current + 1];
+            return {
+              name: target.name,
+              line: target.line,
+              nextLine: next != null ? next.line : void 0
+            };
+          } else {
+            return null;
+          }
+        };
+        return {
+          reset: reset,
+          next: next,
+          get: get,
+          data: data
+        };
+      })();
+      namespaceGroup = {};
       css.walkAtRules('namespace', function(rule) {
-        var line, nextLine;
-        namespace = rule.params;
+        var line, name;
+        name = rule.params;
         line = rule.source.start.line;
-        if (namespaces.length === 0) {
-          namespaces.push({
-            namespace: namespace,
-            line: line,
-            nextLine: null
-          });
-        } else {
-          nextLine = rule.source.start.line;
-          namespaces[namespaces.length - 1].nextLine = nextLine;
-          namespaces.push({
-            namespace: namespace,
-            line: line,
-            nextLine: null
-          });
-        }
+        atNamespace.data.push({
+          name: name,
+          line: line
+        });
         return rule.remove();
       });
-      if (namespaces.length !== 0) {
-        target = namespaces.shift();
-        return css.walkRules(function(rule) {
-          var currentLine, handler, matched, re, result, selector;
-          currentLine = rule.source.start.line;
-          if ((target.nextLine != null) && target.nextLine < currentLine) {
-            target = namespaces.shift();
-          }
-          if (target.line < currentLine) {
-            selector = rule.selector;
-            re = /[^>]+/g;
-            result = '';
-            handler = function(m, idOrClass, name) {
-              if (target.namespace) {
-                return idOrClass + target.namespace + opts.token + name;
-              } else {
-                return idOrClass + name;
-              }
-            };
-            if (/^&\s*(?:\.|#)/.test(selector)) {
-              return;
-            }
-            while ((matched = re.exec(selector)) != null) {
-              if (matched.index !== 0) {
-                if (matched[0][0] === '&') {
-                  result += prefix(matched[0], target.namespace);
-                } else {
-                  result += '>' + matched[0];
-                }
-              } else {
-                if (!/^\s*&/.test(matched[0][0])) {
-                  if (target.namespace) {
-                    result += prefix(matched[0], target.namespace);
-                  } else {
-                    result += matched[0];
-                  }
-                }
-              }
-            }
-            return rule.selector = result;
-          }
-        });
+      if (atNamespace.data.length === 0) {
+        return;
       }
+      namespace = atNamespace.get();
+      namespaceGroup[name1 = namespace.name] || (namespaceGroup[name1] = []);
+      css.walkRules(function(rule) {
+        var currentLine, first, name2;
+        currentLine = rule.source.start.line;
+        if (currentLine < namespace.line) {
+          return rule;
+        }
+        if ((namespace.nextLine != null) && currentLine > namespace.nextLine) {
+          while ((namespace != null) && currentLine > namespace.nextLine) {
+            namespace = atNamespace.next().get();
+            namespaceGroup[name2 = namespace.name] || (namespaceGroup[name2] = []);
+          }
+        }
+        if (currentLine > namespace.line) {
+          if (!/\s*(?:\.|#)/.test(rule.selector)) {
+            return rule;
+          }
+          first = rule.selector.split(/\s/)[0];
+          namespaceGroup[namespace.name];
+          if (!new RegExp(first).test(namespaceGroup[namespace.name].join(','))) {
+            return namespaceGroup[namespace.name].push(first);
+          }
+        }
+      });
+      namespace = atNamespace.reset().get();
+      return css.walkRules(function(rule) {
+        var currentLine, matched, re, result, selector;
+        currentLine = rule.source.start.line;
+        if (currentLine < namespace.line) {
+          return rule;
+        }
+        result = '';
+        if ((namespace.nextLine != null) && currentLine > namespace.nextLine) {
+          while ((namespace != null) && currentLine > namespace.nextLine) {
+            namespace = atNamespace.next().get();
+          }
+        }
+        if (currentLine > namespace.line) {
+          re = /\s*(?:>|\+|~)?\s*(\.|#)[^\s]+/g;
+          while ((matched = re.exec(rule.selector)) != null) {
+            matched = matched[0];
+            selector = matched.match(/[^\s]+$/)[0];
+            if (new RegExp(selector).test(namespaceGroup[namespace.name].join(','))) {
+              if (namespace.name) {
+                result += matched.replace(/(\.|#)/, function(selectorToken) {
+                  return selectorToken + namespace.name + opts.token;
+                });
+              } else {
+                result += matched;
+              }
+            } else {
+              result += matched;
+            }
+          }
+        }
+        rule.selector = result;
+        return rule;
+      });
     };
   });
 
