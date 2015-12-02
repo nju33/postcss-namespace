@@ -74,3 +74,9 @@ describe 'postcss-namespace', ->
 
     result = postcss([namespace {token: '__'}]).process(style)
     expect(result.css).to.equal(answer)
+
+  it 'expect [square-brachets]', ->
+    {style, answer} = set 'square-brachets'
+
+    {css} = postcss([namespace {token: '__'}]).process(style)
+    expect(css).to.equal(answer)

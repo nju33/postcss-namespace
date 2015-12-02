@@ -102,6 +102,9 @@
         if (currentLine < namespace.line) {
           return rule;
         }
+        if (/^\s*\[/.test(rule.selector)) {
+          return rule;
+        }
         result = '';
         if ((namespace.nextLine != null) && currentLine > namespace.nextLine) {
           while ((namespace != null) && currentLine > namespace.nextLine) {

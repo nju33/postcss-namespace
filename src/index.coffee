@@ -45,7 +45,6 @@ namespace = postcss.plugin 'postcss-namespace', (opts) ->
     if atNamespace.data.length is 0
       return
 
-
     namespace = atNamespace.get()
     namespaceGroup[namespace.name] or= []
     css.walkRules (rule) ->
@@ -74,6 +73,10 @@ namespace = postcss.plugin 'postcss-namespace', (opts) ->
     css.walkRules (rule) ->
       currentLine = rule.source.start.line
       if currentLine < namespace.line
+        return rule
+
+      # Return if selector matched square brackets
+      if /^\s*\[/.test rule.selector
         return rule
 
       result = ''
