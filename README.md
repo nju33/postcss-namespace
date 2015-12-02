@@ -1,5 +1,7 @@
 # postcss-namespace
 
+[![npm version](https://badge.fury.io/js/postcss-namespace.svg)](https://badge.fury.io/js/postcss-namespace)
+
 [PostCSS](https://github.com/postcss/postcss) plugin that prefix a namespace to a selector
 
 ## Install
@@ -19,8 +21,8 @@ Write `@namespace` atrule to your css file.
 .outside {}
 
 @namespace block;
-.box {}
 
+.box {}
 .inner {}
 
 .inner .exists {}
@@ -31,15 +33,15 @@ Write `@namespace` atrule to your css file.
 .exists {}
 
 @namespace ;
-.box {}
 
+.box {}
 .inner {}
 
 @namespace block2;
+
 .box {}
-
+[class*="box"] {}
 .inner {}
-
 
 ```
 
@@ -63,8 +65,8 @@ Will get `output` like following CSS
 
 ```css
 .outside {}
-.block__box {}
 
+.block__box {}
 .block__inner {}
 
 .block__inner .block__exists {}
@@ -73,11 +75,12 @@ Will get `output` like following CSS
 .block__inner .outside {}
 
 .block__exists {}
+
 .box {}
-
 .inner {}
-.block2__box {}
 
+.block2__box {}
+[class*="box"] {}
 .block2__inner {}
 ```
 
@@ -86,3 +89,26 @@ Will get `output` like following CSS
 - `token`  
   Token for consolidate(e.g.) `namespace({token: '__'})`  
   By default, it is `-`
+
+## Run to example
+
+**1** Close this
+
+```
+git clone git@github.com:totora0155/postcss-namespace.git
+```
+
+**2** Change directory
+```
+cd postcss-namespace
+```
+
+**3** Install modules
+```
+npm install
+```
+
+**4** Run to script
+```
+npm run example
+```
