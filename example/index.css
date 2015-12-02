@@ -1,0 +1,24 @@
+.outside {}
+
+@namespace block;
+
+.box {}
+.inner {}
+
+.inner .exists {}
+.inner .new {}
+.inner .exists,
+.inner .outside {}
+
+.exists {}
+
+@namespace ;
+
+.box {}
+.inner {}
+
+@namespace block2;
+
+.box {}
+[class*="box"] {}
+.inner {}

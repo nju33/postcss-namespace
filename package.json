@@ -32,6 +32,7 @@
   },
   "scripts": {
     "build": "coffee -o ./ -c src/index.coffee",
+    "example": "node example/postcss.js",
     "test": " mocha --compilers \"--compilers coffee:coffee-script/register\"  test/*",
     "watch": "coffee -w -o ./ -c src/index.coffee"
   }
