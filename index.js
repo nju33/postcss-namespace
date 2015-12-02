@@ -53,7 +53,7 @@
         };
       })();
       namespaceGroup = {};
-      css.walkAtRules('namespace', function(rule) {
+      css.walkAtRules('prefix', function(rule) {
         var line, name;
         name = rule.params;
         line = rule.source.start.line;

@@ -1,4 +1,4 @@
-@namespace thing;
+@prefix thing;
 .box {
   width: 5em;
   height: 5em
@@ -9,7 +9,7 @@
   mragin: 0 auto;
 }
 
-@namespace ;
+@prefix ;
 .box {
   width: 3em;
   height: 3em;

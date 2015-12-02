@@ -2,7 +2,7 @@
   color: blue;
 }
 
-@namespace parent;
+@prefix parent;
 
 .class {
   color: red;

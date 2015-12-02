@@ -35,7 +35,7 @@ namespace = postcss.plugin 'postcss-namespace', (opts) ->
 
     namespaceGroup = {}
 
-    css.walkAtRules 'namespace', (rule) ->
+    css.walkAtRules 'prefix', (rule) ->
       name = rule.params
       line = rule.source.start.line
 

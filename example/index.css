@@ -1,6 +1,6 @@
 .outside {}
 
-@namespace block;
+@prefix block;
 
 .box {}
 .inner {}
@@ -12,12 +12,12 @@
 
 .exists {}
 
-@namespace ;
+@prefix ;
 
 .box {}
 .inner {}
 
-@namespace block2;
+@prefix block2;
 
 .box {}
 [class*="box"] {}
