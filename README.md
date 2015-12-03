@@ -20,7 +20,7 @@ Write `@namespace` atrule to your css file.
 ```css
 .outside {}
 
-@namespace block;
+@prefix block;
 
 .box {}
 .inner {}
@@ -32,12 +32,12 @@ Write `@namespace` atrule to your css file.
 
 .exists {}
 
-@namespace ;
+@prefix ;
 
 .box {}
 .inner {}
 
-@namespace block2;
+@prefix block2;
 
 .box {}
 [class*="box"] {}
