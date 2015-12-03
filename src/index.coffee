@@ -10,7 +10,7 @@ namespace = postcss.plugin 'postcss-namespace', (opts) ->
   getFirst = (selector) ->
     drop(selector).split(/\s/)[0]
 
-  (css) ->
+  (css, result) ->
     atNamespace = do ->
       current = 0
       data = []
@@ -35,7 +35,14 @@ namespace = postcss.plugin 'postcss-namespace', (opts) ->
 
     namespaceGroup = {}
 
-    css.walkAtRules 'prefix', (rule) ->
+    css.walkAtRules /namespace|prefix/, (rule) ->
+      if rule.name is 'namespace'
+        result.warn(
+          '@namespace is deprecated! please using @prefix at-rule.'
+          {node: rule}
+        )
+        return rule
+
       name = rule.params
       line = rule.source.start.line
 
