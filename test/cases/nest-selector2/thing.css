@@ -1,6 +1,6 @@
 .child3 {}
 
-@namespace class;
+@prefix class;
 
 .l1 .child1 {
   padding: 1px;

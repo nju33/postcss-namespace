@@ -17,7 +17,7 @@
     getFirst = function(selector) {
       return drop(selector).split(/\s/)[0];
     };
-    return function(css) {
+    return function(css, result) {
       var atNamespace, name1, namespaceGroup;
       atNamespace = (function() {
         var current, data, get, next, reset;
@@ -53,8 +53,14 @@
         };
       })();
       namespaceGroup = {};
-      css.walkAtRules('namespace', function(rule) {
+      css.walkAtRules(/namespace|prefix/, function(rule) {
         var line, name;
+        if (rule.name === 'namespace') {
+          result.warn('@namespace is deprecated! please using @prefix at-rule.', {
+            node: rule
+          });
+          return rule;
+        }
         name = rule.params;
         line = rule.source.start.line;
         atNamespace.data.push({
@@ -97,7 +103,7 @@
       });
       namespace = atNamespace.reset().get();
       return css.walkRules(function(rule) {
-        var currentLine, matched, rSelector, re, result, selector;
+        var currentLine, matched, rSelector, re, selector;
         currentLine = rule.source.start.line;
         if (currentLine < namespace.line) {
           return rule;

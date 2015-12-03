@@ -1,6 +1,6 @@
 .outside {}
 
-@namespace class;
+@prefix class;
 
 .box .inside,
 .box2 .outside {}

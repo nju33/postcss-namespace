@@ -112,3 +112,9 @@ npm install
 ```
 npm run example
 ```
+
+## Change log
+
+|version|log|
+|:-:|:--|
+|0.2.0|Change at-rule keyword to `@prefix` from `@namespace`|
