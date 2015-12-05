@@ -15,7 +15,7 @@ npm i postcss
 
 ## Usage
 
-Write `@namespace` atrule to your css file.
+Write `@prefix` atrule to your css file.
 (e.g. input.css)
 ```css
 .outside {}
