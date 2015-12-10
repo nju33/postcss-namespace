@@ -1,6 +1,5 @@
 fs           = require 'fs'
 path         = require 'path'
-CSON         = require 'cson'
 chai         = require 'chai'
 expect       = chai.expect
 postcss      = require 'postcss'
