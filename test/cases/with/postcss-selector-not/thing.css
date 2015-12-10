@@ -1,0 +1,3 @@
+@prefix block;
+
+.box:not(.not1, .not2) {}
