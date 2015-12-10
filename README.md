@@ -1,6 +1,7 @@
 # postcss-namespace
 
 [![npm version](https://badge.fury.io/js/postcss-namespace.svg)](https://badge.fury.io/js/postcss-namespace)
+[![Build Status](https://travis-ci.org/totora0155/postcss-namespace.svg?branch=master)](https://travis-ci.org/totora0155/postcss-namespace)
 
 [PostCSS](https://github.com/postcss/postcss) plugin that prefix a namespace to a selector
 
