@@ -5,7 +5,7 @@
   postcss = require('postcss');
 
   namespace = postcss.plugin('postcss-namespace', function(opts) {
-    var drop, getFirst;
+    var drop, getFirst, pick;
     if (opts == null) {
       opts = {
         token: '-'
@@ -15,7 +15,20 @@
       return selector.replace(/^.*?(\.|#)/, "$1").replace(/\n/, '');
     };
     getFirst = function(selector) {
-      return drop(selector).split(/\s/)[0];
+      return drop(selector).split(/\s(?!.*?\))/)[0];
+    };
+    pick = function(str) {
+      var selector;
+      return selector = (function() {
+        var result;
+        result = '';
+        result = str.trim().replace(/^[^.#]*/, '');
+        result = result.replace(/(\.|\(|\))/g, "\\$1");
+        if (result[result.length - 1] === ',') {
+          result += '?';
+        }
+        return result;
+      })();
     };
     return function(css, result) {
       var atNamespace, name1, namespaceGroup;
@@ -87,7 +100,7 @@
           }
         }
         if (currentLine > namespace.line) {
-          selectors = rule.selector.split(',');
+          selectors = rule.selector.split(/,(?!.*?\))/);
           for (i = 0, len = selectors.length; i < len; i++) {
             selector = selectors[i];
             if (!/\s*(?:\.|#)/.test(selector)) {
@@ -103,7 +116,7 @@
       });
       namespace = atNamespace.reset().get();
       return css.walkRules(function(rule) {
-        var currentLine, matched, rSelector, re, selector;
+        var currentLine, matched, rSelector, re;
         currentLine = rule.source.start.line;
         if (currentLine < namespace.line) {
           return rule;
@@ -118,15 +131,18 @@
           }
         }
         if (currentLine > namespace.line) {
-          re = /\s*(?:>|\+|~)?\s*(\.|#)[^\s]+/g;
+          re = (function(s) {
+            var rPseudo;
+            rPseudo = /:[^)]+\)/;
+            if (rPseudo.test(s)) {
+              return /\s*(?:>|\+|~)?\s*(\.|#)[^)]+[^\s]+/g;
+            } else {
+              return /\s*(?:>|\+|~)?\s*(\.|#)[^\s]+/g;
+            }
+          })(rule.selector);
           while ((matched = re.exec(rule.selector)) != null) {
             matched = matched[0];
-            selector = (function() {
-              var replaced;
-              replaced = matched.match(/[^\s]+$/)[0];
-              return replaced.trim();
-            })();
-            rSelector = selector[selector.length - 1] === ',' ? new RegExp(selector + '?') : new RegExp(selector);
+            rSelector = new RegExp(pick(matched));
             if (rSelector.test(namespaceGroup[namespace.name].join(','))) {
               if (namespace.name) {
                 result += matched.replace(/(\.|#)/, function(selectorToken) {

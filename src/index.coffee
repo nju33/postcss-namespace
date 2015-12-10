@@ -8,7 +8,16 @@ namespace = postcss.plugin 'postcss-namespace', (opts) ->
     selector.replace(/^.*?(\.|#)/, "$1").replace(/\n/, '')
 
   getFirst = (selector) ->
-    drop(selector).split(/\s/)[0]
+    drop(selector).split(/\s(?!.*?\))/)[0]
+
+  pick = (str) ->
+    selector = do ->
+      result =  ''
+      result = str.trim().replace /^[^.#]*/, ''
+      result = result.replace /(\.|\(|\))/g, "\\$1"
+      if result[result.length - 1] is ','
+        result += '?'
+      result
 
   (css, result) ->
     atNamespace = do ->
@@ -64,7 +73,7 @@ namespace = postcss.plugin 'postcss-namespace', (opts) ->
           namespaceGroup[namespace.name] or= []
 
       if currentLine > namespace.line
-        selectors = rule.selector.split ','
+        selectors = rule.selector.split /,(?!.*?\))/
 
         for selector in selectors
           if not /\s*(?:\.|#)/.test selector
@@ -93,18 +102,16 @@ namespace = postcss.plugin 'postcss-namespace', (opts) ->
           namespace = atNamespace.next().get()
 
       if currentLine > namespace.line
-        re = /\s*(?:>|\+|~)?\s*(\.|#)[^\s]+/g
+        re = do (s = rule.selector) ->
+          rPseudo = /:[^)]+\)/
+          if rPseudo.test s
+            /\s*(?:>|\+|~)?\s*(\.|#)[^)]+[^\s]+/g
+          else
+            /\s*(?:>|\+|~)?\s*(\.|#)[^\s]+/g
 
         while (matched = re.exec rule.selector)?
           [matched] = matched
-          selector = do ->
-            [replaced] = matched.match /[^\s]+$/
-            replaced.trim()
-          rSelector =
-            if selector[selector.length - 1] is ','
-              new RegExp selector + '?'
-            else
-              new RegExp selector
+          rSelector = new RegExp pick matched
 
           if rSelector.test namespaceGroup[namespace.name].join(',')
 
