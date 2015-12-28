@@ -85,3 +85,9 @@ describe 'postcss-namespace', ->
 
     {css} = postcss([namespace {token: '__'}]).process(style)
     expect(css).to.equal(answer)
+
+  it 'tag after atrule', ->
+    {style, answer} = set 'tag-after-atrule'
+
+    {css} = postcss([namespace {token: '__'}]).process(style)
+    expect(css).to.equal(answer)

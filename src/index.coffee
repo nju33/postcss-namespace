@@ -92,7 +92,7 @@ namespace = postcss.plugin 'postcss-namespace', (opts) ->
         return rule
 
       # Return if selector matched square brackets
-      if /^\s*\[/.test rule.selector
+      unless /^\s*(?:\.|#)/.test rule.selector
         return rule
 
       result = ''

@@ -121,7 +121,7 @@
         if (currentLine < namespace.line) {
           return rule;
         }
-        if (/^\s*\[/.test(rule.selector)) {
+        if (!/^\s*(?:\.|#)/.test(rule.selector)) {
           return rule;
         }
         result = '';

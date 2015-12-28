@@ -118,5 +118,6 @@ npm run example
 
 |version|log|
 |:-:|:--|
+|0.2.3|Bug fix (Tag not output after atrule)|
 |0.2.2|Fix, occured error to [postcss-selector-not](https://github.com/postcss/postcss-selector-not) syntax|
 |0.2.0|Change at-rule keyword to `@prefix` from `@namespace` [#1](https://github.com/totora0155/postcss-namespace/issues/1)|
