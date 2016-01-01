@@ -1,4 +1,4 @@
-.child3 {}
+.child4 {}
 
 @prefix class;
 
@@ -18,9 +18,14 @@
   padding: 2px;
 }
 
-.l1 .child3 {
+.li ~ .child2 > .child3:first-child {
   padding: 3px;
+}
+
+.l1 .child4 {
+  padding: 4px;
 }
 
 .child1 {}
 .child2 {}
+.child3 {}

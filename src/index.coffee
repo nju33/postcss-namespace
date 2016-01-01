@@ -15,9 +15,11 @@ namespace = postcss.plugin 'postcss-namespace', (opts) ->
       result =  ''
       result = str.trim().replace /^[^.#]*/, ''
       result = result.replace /(\.|\(|\))/g, "\\$1"
+      result = result.replace /:.*$/, ''
       if result[result.length - 1] is ','
         result += '?'
       result
+    selector
 
   (css, result) ->
     atNamespace = do ->

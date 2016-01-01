@@ -1,4 +1,4 @@
-.child3 {}
+.child4 {}
 
 .class__l1 .class__child1 {
   padding: 1px;
@@ -16,9 +16,14 @@
   padding: 2px;
 }
 
-.class__l1 .child3 {
+.class__li ~ .class__child2 > .class__child3:first-child {
   padding: 3px;
+}
+
+.class__l1 .child4 {
+  padding: 4px;
 }
 
 .class__child1 {}
 .class__child2 {}
+.class__child3 {}

@@ -19,16 +19,18 @@
     };
     pick = function(str) {
       var selector;
-      return selector = (function() {
+      selector = (function() {
         var result;
         result = '';
         result = str.trim().replace(/^[^.#]*/, '');
         result = result.replace(/(\.|\(|\))/g, "\\$1");
+        result = result.replace(/:.*$/, '');
         if (result[result.length - 1] === ',') {
           result += '?';
         }
         return result;
       })();
+      return selector;
     };
     return function(css, result) {
       var atNamespace, name1, namespaceGroup;
