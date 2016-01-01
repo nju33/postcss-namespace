@@ -8,7 +8,7 @@ namespace = postcss.plugin 'postcss-namespace', (opts) ->
     selector.replace(/^.*?(\.|#)/, "$1").replace(/\n/, '')
 
   getFirst = (selector) ->
-    drop(selector).split(/\s(?!.*?\))/)[0]
+    drop(selector).match(/^[^\s]+/)[0]
 
   pick = (str) ->
     selector = do ->
@@ -104,12 +104,7 @@ namespace = postcss.plugin 'postcss-namespace', (opts) ->
           namespace = atNamespace.next().get()
 
       if currentLine > namespace.line
-        re = do (s = rule.selector) ->
-          rPseudo = /:[^)]+\)/
-          if rPseudo.test s
-            /\s*(?:>|\+|~)?\s*(\.|#)[^)]+[^\s]+/g
-          else
-            /\s*(?:>|\+|~)?\s*(\.|#)[^\s]+/g
+        re = /\s*(?:>|\+|~)?\s*(\.|#)[^)]+?[^\s]+/g
 
         while (matched = re.exec rule.selector)?
           [matched] = matched

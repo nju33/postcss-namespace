@@ -91,6 +91,21 @@ Will get `output` like following CSS
   Token for consolidate(e.g.) `namespace({token: '__'})`  
   By default, it is `-`
 
+## Tips
+
+### With [postcss-selector-not](https://github.com/postcss/postcss-selector-not)
+
+Process the postcss-selector-not before the postcss-namespace.
+
+```js
+postcss(
+  [
+    require('postcss-selector-not'),
+    require('postcss-namespace')(...)
+  ]
+)
+```
+
 ## Run to example
 
 **1** Close this
@@ -118,6 +133,7 @@ npm run example
 
 |version|log|
 |:-:|:--|
+|0.2.5|Bug fix for `:nth*` selector & Revert v0.2.2 |
 |0.2.4|Bug fix for pseudo selector|
 |0.2.3|Bug fix (Tag not output after atrule)|
 |0.2.2|Fix, occured error to [postcss-selector-not](https://github.com/postcss/postcss-selector-not) syntax|

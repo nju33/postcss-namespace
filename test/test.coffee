@@ -80,7 +80,7 @@ describe 'postcss-namespace', ->
     {css} = postcss([namespace {token: '__'}]).process(style)
     expect(css).to.equal(answer)
 
-  it 'postcss-selector-not syntax', ->
+  it.skip 'postcss-selector-not syntax', ->
     {style, answer} = set 'with/postcss-selector-not'
 
     {css} = postcss([namespace {token: '__'}]).process(style)

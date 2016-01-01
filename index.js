@@ -15,7 +15,7 @@
       return selector.replace(/^.*?(\.|#)/, "$1").replace(/\n/, '');
     };
     getFirst = function(selector) {
-      return drop(selector).split(/\s(?!.*?\))/)[0];
+      return drop(selector).match(/^[^\s]+/)[0];
     };
     pick = function(str) {
       var selector;
@@ -133,15 +133,7 @@
           }
         }
         if (currentLine > namespace.line) {
-          re = (function(s) {
-            var rPseudo;
-            rPseudo = /:[^)]+\)/;
-            if (rPseudo.test(s)) {
-              return /\s*(?:>|\+|~)?\s*(\.|#)[^)]+[^\s]+/g;
-            } else {
-              return /\s*(?:>|\+|~)?\s*(\.|#)[^\s]+/g;
-            }
-          })(rule.selector);
+          re = /\s*(?:>|\+|~)?\s*(\.|#)[^)]+?[^\s]+/g;
           while ((matched = re.exec(rule.selector)) != null) {
             matched = matched[0];
             rSelector = new RegExp(pick(matched));
