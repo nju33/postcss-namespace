@@ -106,6 +106,19 @@ postcss(
 )
 ```
 
+### With [lost](https://github.com/peterramsing/lost)
+
+Process the postcss-namespace before the lost.
+
+```js
+postcss(
+  [
+    require('postcss-namespace')(...),
+    require('lost')
+  ]
+)
+```
+
 ## Run to example
 
 **1** Close this
