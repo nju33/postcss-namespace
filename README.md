@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/totora0155/postcss-namespace.svg?branch=master)](https://travis-ci.org/totora0155/postcss-namespace)
 [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
 
-<p><img width="20" src="https://camo.githubusercontent.com/2ec260a9d4d3dcc109be800af0b29a8471ad5967/687474703a2f2f706f73746373732e6769746875622e696f2f706f73746373732f6c6f676f2e737667"> [PostCSS](https://github.com/postcss/postcss) plugin that prefix a namespace to a selector</p>
+<p><img width="20" src="https://camo.githubusercontent.com/2ec260a9d4d3dcc109be800af0b29a8471ad5967/687474703a2f2f706f73746373732e6769746875622e696f2f706f73746373732f6c6f676f2e737667"> <a href="https://github.com/postcss/postcss">PostCSS</a> plugin that prefix a namespace to a selector</p>
 
 ---
 

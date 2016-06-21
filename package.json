@@ -36,7 +36,7 @@
     "gulp-babel": "^6.1.2",
     "gulp-plumber": "^1.1.0",
     "gulp-rename": "^1.2.2",
-    "xo": "^0.16.0",
+    "xo": "^0.16.0"
   },
   "homepage": "https://github.com/totora0155/postcss-namespace#readme",
   "keywords": [
