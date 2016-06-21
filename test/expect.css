@@ -1,22 +1,21 @@
 .outside {}
 
 .block__box {}
-.block__inner {}
 
-/* comments */
-
-.block__inner .block__exists {}
+.block__inner .block__target {}
 .block__inner .not-target {}
 .block__inner .ignore-1 {}
-.block__inner .block__exists,
 .block__inner .ignore-2,
-.block__inner .block__outside {}
+.block__inner .block__target {}
 
 .box {}
-.inner {}
 
 .block2__box {}
-.block2__inner {}
 &:hover {}
-[class*="box"] {}
 [href^="https"][target="_blank"] {}
+
+@media screen and (min-width: 768px) {
+  #block2__media {}
+  #block2__media #block2__inner,
+  .block2__media .block2__inner.block2__box {}
+}

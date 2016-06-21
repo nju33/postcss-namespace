@@ -24,29 +24,28 @@ Write `@prefix` atrule to your css file.
 @prefix block not(.not-target, /ignore/);
 
 .box {}
-.inner {}
 
-/* comments */
-
-.inner .exists {}
+.inner .target {}
 .inner .not-target {}
 .inner .ignore-1 {}
-.inner .exists,
 .inner .ignore-2,
-.inner .outside {}
+.inner .target {}
 
 @prefix ;
 
 .box {}
-.inner {}
 
 @prefix block2;
 
 .box {}
-.inner {}
 &:hover {}
-[class*="box"] {}
 [href^="https"][target="_blank"] {}
+
+@media screen and (min-width: 768px) {
+  #media {}
+  #media #inner,
+  .media .inner.box {}
+}
 
 ```
 
@@ -71,25 +70,24 @@ Will get `output` like following CSS
 .outside {}
 
 .block__box {}
-.block__inner {}
 
-/* comments */
-
-.block__inner .block__exists {}
+.block__inner .block__target {}
 .block__inner .not-target {}
 .block__inner .ignore-1 {}
-.block__inner .block__exists,
 .block__inner .ignore-2,
-.block__inner .block__outside {}
+.block__inner .block__target {}
 
 .box {}
-.inner {}
 
 .block2__box {}
-.block2__inner {}
 &:hover {}
-[class*="box"] {}
 [href^="https"][target="_blank"] {}
+
+@media screen and (min-width: 768px) {
+  #block2__media {}
+  #block2__media #block2__inner,
+  .block2__media .block2__inner.block2__box {}
+}
 
 ```
 
@@ -126,6 +124,7 @@ cd examples && node postcss.js
 
 |version|log|
 |:-:|:--|
+|1.0.1|Fix `node.nodes`|
 |1.0.0|Rewrite with es2015 & Add not func in AtRule|
 |0.2.5|Bug fix for `:nth*` selector & Revert v0.2.2 |
 |0.2.4|Bug fix for pseudo selector|

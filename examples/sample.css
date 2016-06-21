@@ -3,26 +3,25 @@
 @prefix block not(.not-target, /ignore/);
 
 .box {}
-.inner {}
 
-/* comments */
-
-.inner .exists {}
+.inner .target {}
 .inner .not-target {}
 .inner .ignore-1 {}
-.inner .exists,
 .inner .ignore-2,
-.inner .outside {}
+.inner .target {}
 
 @prefix ;
 
 .box {}
-.inner {}
 
 @prefix block2;
 
 .box {}
-.inner {}
 &:hover {}
-[class*="box"] {}
 [href^="https"][target="_blank"] {}
+
+@media screen and (min-width: 768px) {
+  #media {}
+  #media #inner,
+  .media .inner.box {}
+}

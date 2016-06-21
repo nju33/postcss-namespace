@@ -47,6 +47,11 @@ export default postcss.plugin('postcss-namespace', (opts = {}) => {
         break;
       }
 
+      if (target.constructor.name === 'AtRule' &&
+          target.nodes.length) {
+        process(prefix, wrapNodes(target.nodes), ignored);
+      }
+
       if (target.constructor.name !== 'Rule') {
         continue;
       }
@@ -73,6 +78,14 @@ export default postcss.plugin('postcss-namespace', (opts = {}) => {
           return target.test(selector);
         }
       }));
+    }
+
+    function wrapNodes(nodes) {
+      return {
+        next() {
+          return nodes[0];
+        }
+      };
     }
   }
 });
