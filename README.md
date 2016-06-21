@@ -2,16 +2,16 @@
 
 [![npm version](https://badge.fury.io/js/postcss-namespace.svg)](https://badge.fury.io/js/postcss-namespace)
 [![Build Status](https://travis-ci.org/totora0155/postcss-namespace.svg?branch=master)](https://travis-ci.org/totora0155/postcss-namespace)
+[![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
 
-[PostCSS](https://github.com/postcss/postcss) plugin that prefix a namespace to a selector
+<p><img width="20" src="https://camo.githubusercontent.com/2ec260a9d4d3dcc109be800af0b29a8471ad5967/687474703a2f2f706f73746373732e6769746875622e696f2f706f73746373732f6c6f676f2e737667"> <a href="https://github.com/postcss/postcss">PostCSS</a> plugin that prefix a namespace to a selector</p>
+
+---
 
 ## Install
 
 ```
 npm i postcss-namespace
-
-# if still
-npm i postcss
 ```
 
 ## Usage
@@ -21,17 +21,19 @@ Write `@prefix` atrule to your css file.
 ```css
 .outside {}
 
-@prefix block;
+@prefix block not(.not-target, /ignore/);
 
 .box {}
 .inner {}
 
-.inner .exists {}
-.inner .new {}
-.inner .exists,
-.inner .outside {}
+/* comments */
 
-.exists {}
+.inner .exists {}
+.inner .not-target {}
+.inner .ignore-1 {}
+.inner .exists,
+.inner .ignore-2,
+.inner .outside {}
 
 @prefix ;
 
@@ -41,25 +43,26 @@ Write `@prefix` atrule to your css file.
 @prefix block2;
 
 .box {}
-[class*="box"] {}
 .inner {}
+&:hover {}
+[class*="box"] {}
+[href^="https"][target="_blank"] {}
 
 ```
 
 Use this plugin in PostCSS
 (e.g.)
 ```javascript
-var fs = require('fs');
-var postcss = require('postcss');
-var namespace = require('postcss-namespace');
-var css = fs.readFileSync('input.css', 'utf8');
+const fs = require('fs');
+const postcss = require('postcss');
+const namespace = require('postcss-namespace');
 
-var output = postcss()
-  .use(namespace({token: '__'}))
+const css = fs.readFileSync('./sample.css', 'utf-8');
+
+postcss([namespace({token: '__'})])
   .process(css)
-  .css;
+  .then(result => console.log(result.css));
 
-console.log(output);
 ```
 
 Will get `output` like following CSS
@@ -70,19 +73,24 @@ Will get `output` like following CSS
 .block__box {}
 .block__inner {}
 
-.block__inner .block__exists {}
-.block__inner .new {}
-.block__inner .block__exists,
-.block__inner .outside {}
+/* comments */
 
-.block__exists {}
+.block__inner .block__exists {}
+.block__inner .not-target {}
+.block__inner .ignore-1 {}
+.block__inner .block__exists,
+.block__inner .ignore-2,
+.block__inner .block__outside {}
 
 .box {}
 .inner {}
 
 .block2__box {}
-[class*="box"] {}
 .block2__inner {}
+&:hover {}
+[class*="box"] {}
+[href^="https"][target="_blank"] {}
+
 ```
 
 ## Options
@@ -90,34 +98,6 @@ Will get `output` like following CSS
 - `token`  
   Token for consolidate(e.g.) `namespace({token: '__'})`  
   By default, it is `-`
-
-## Tips
-
-### With [postcss-selector-not](https://github.com/postcss/postcss-selector-not)
-
-Process the postcss-selector-not before the postcss-namespace.
-
-```js
-postcss(
-  [
-    require('postcss-selector-not'),
-    require('postcss-namespace')(...)
-  ]
-)
-```
-
-### With [lost](https://github.com/peterramsing/lost)
-
-Process the postcss-namespace before the lost.
-
-```js
-postcss(
-  [
-    require('postcss-namespace')(...),
-    require('lost')
-  ]
-)
-```
 
 ## Run to example
 
@@ -139,13 +119,14 @@ npm install
 
 **4** Run to script
 ```
-npm run example
+cd examples && node postcss.js
 ```
 
 ## Change log
 
 |version|log|
 |:-:|:--|
+|1.0.0|Rewrite with es2015 & Add not func in AtRule|
 |0.2.5|Bug fix for `:nth*` selector & Revert v0.2.2 |
 |0.2.4|Bug fix for pseudo selector|
 |0.2.3|Bug fix (Tag not output after atrule)|

@@ -1,0 +1,28 @@
+.outside {}
+
+@prefix block not(.not-target, /ignore/);
+
+.box {}
+.inner {}
+
+/* comments */
+
+.inner .exists {}
+.inner .not-target {}
+.inner .ignore-1 {}
+.inner .exists,
+.inner .ignore-2,
+.inner .outside {}
+
+@prefix ;
+
+.box {}
+.inner {}
+
+@prefix block2;
+
+.box {}
+.inner {}
+&:hover {}
+[class*="box"] {}
+[href^="https"][target="_blank"] {}

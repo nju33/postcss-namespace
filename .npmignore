@@ -1,5 +1,4 @@
 .gitignore
-example/
 node_modules/
 src/
 test/

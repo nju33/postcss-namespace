@@ -1,7 +1,7 @@
 {
   "name": "postcss-namespace",
   "description": "PostCSS plugin that prefix a namespace to a selector",
-  "version": "0.2.5",
+  "version": "1.0.0",
   "author": {
     "name": "nju33",
     "email": "sski0155+npm@gmail.com",
@@ -11,12 +11,32 @@
     "url": "https://github.com/totora0155/postcss-namespace/issues"
   },
   "dependencies": {
+    "lodash": "^4.13.1",
     "postcss": "^5.0.10"
   },
   "devDependencies": {
-    "chai": "^3.4.0",
-    "coffee-script": "^1.10.0",
-    "mocha": "^2.3.3"
+    "ava": "^0.15.2",
+    "babel-core": "^6.7.4",
+    "babel-plugin-syntax-async-functions": "^6.5.0",
+    "babel-plugin-transform-async-to-generator": "^6.5.0",
+    "babel-plugin-transform-es2015-destructuring": "^6.9.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.8.0",
+    "babel-plugin-transform-es2015-parameters": "^6.6.4",
+    "babel-plugin-transform-es2015-spread": "^6.8.0",
+    "babel-plugin-transform-function-bind": "^6.5.2",
+    "babel-plugin-transform-object-assign": "^6.5.0",
+    "babel-plugin-transform-object-rest-spread": "^6.6.4",
+    "babel-plugin-transform-remove-console": "^6.5.0",
+    "babel-plugin-transform-runtime": "^6.6.0",
+    "babel-register": "^6.7.2",
+    "babel-runtime": "^6.5.0",
+    "babel-template": "^6.7.0",
+    "babel-types": "^6.7.2",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-plumber": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "xo": "^0.16.0"
   },
   "homepage": "https://github.com/totora0155/postcss-namespace#readme",
   "keywords": [
@@ -31,9 +51,28 @@
     "url": "git@github.com:totora0155/postcss-namespace.git"
   },
   "scripts": {
-    "build": "coffee -o ./ -c src/index.coffee",
-    "example": "node example/postcss.js",
-    "test": " mocha --compilers \"--compilers coffee:coffee-script/register\"  test/*",
-    "watch": "coffee -w -o ./ -c src/index.coffee"
+    "prepublish": "gulp babel",
+    "build": "gulp babel",
+    "start": "gulp watch",
+    "test": "xo && ava"
+  },
+  "ava": {
+    "files": [
+      "test/**/*.js"
+    ],
+    "require": [
+      "babel-register"
+    ],
+    "babel": "inherit"
+  },
+  "xo": {
+    "env": [
+      "node"
+    ],
+    "esnext": true,
+    "space": 2,
+    "ignores": [
+      "build/**"
+    ]
   }
 }
