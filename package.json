@@ -32,13 +32,11 @@
     "babel-runtime": "^6.5.0",
     "babel-template": "^6.7.0",
     "babel-types": "^6.7.2",
-    "cson": "^3.0.2",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-plumber": "^1.1.0",
     "gulp-rename": "^1.2.2",
     "xo": "^0.16.0",
-    "yamljs": "^0.2.7"
   },
   "homepage": "https://github.com/totora0155/postcss-namespace#readme",
   "keywords": [
@@ -53,6 +51,7 @@
     "url": "git@github.com:totora0155/postcss-namespace.git"
   },
   "scripts": {
+    "prepublish": "gulp babel",
     "build": "gulp babel",
     "start": "gulp watch",
     "test": "xo && ava"
