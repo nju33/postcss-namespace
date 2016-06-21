@@ -23,5 +23,6 @@
 
 .box {}
 .inner {}
+&:hover {}
 [class*="box"] {}
 [href^="https"][target="_blank"] {}

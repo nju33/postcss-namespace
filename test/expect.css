@@ -1,0 +1,22 @@
+.outside {}
+
+.block__box {}
+.block__inner {}
+
+/* comments */
+
+.block__inner .block__exists {}
+.block__inner .not-target {}
+.block__inner .ignore-1 {}
+.block__inner .block__exists,
+.block__inner .ignore-2,
+.block__inner .block__outside {}
+
+.box {}
+.inner {}
+
+.block2__box {}
+.block2__inner {}
+&:hover {}
+[class*="box"] {}
+[href^="https"][target="_blank"] {}
