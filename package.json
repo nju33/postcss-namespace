@@ -51,7 +51,7 @@
     "url": "git@github.com:totora0155/postcss-namespace.git"
   },
   "scripts": {
-    "prepublish": "gulp babel",
+    "prepublish": "npm run build",
     "build": "gulp babel",
     "start": "gulp watch",
     "test": "xo && ava"
