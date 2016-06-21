@@ -1,9 +1,0 @@
-.class {
-  color: blue;
-}
-
-@prefix parent;
-
-.class {
-  color: red;
-}
