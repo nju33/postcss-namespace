@@ -58,6 +58,7 @@ const namespace = require('postcss-namespace');
 
 const css = fs.readFileSync('./sample.css', 'utf-8');
 
+// or postcss([namespace.bem])
 postcss([namespace({token: '__'})])
   .process(css)
   .then(result => console.log(result.css));
@@ -91,11 +92,21 @@ Will get `output` like following CSS
 
 ```
 
+## AtRule Function
+
+- `not` (string|regexp)...  
+Specify selector or pattern which Don't want a prefix
+
+## Plugin Function
+
+- `namespace.bem`  
+  Same as `namespace({token: '__'})`
+
 ## Options
 
 - `token`  
   Token for consolidate(e.g.) `namespace({token: '__'})`  
-  By default, it is `-`
+  `-` by default
 
 ## Run to example
 
@@ -124,6 +135,7 @@ cd examples && node postcss.js
 
 |version|log|
 |:-:|:--|
+|1.1.0|Add `bem` function. (Alias `{token: '__'}`)|
 |1.0.1|Fix `node.nodes`|
 |1.0.0|Rewrite with es2015 & Add not func in AtRule|
 |0.2.5|Bug fix for `:nth*` selector & Revert v0.2.2 |
