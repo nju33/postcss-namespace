@@ -47,9 +47,10 @@ export default postcss.plugin('postcss-namespace', (opts = {}) => {
         break;
       }
 
-      if (target.constructor.name === 'AtRule' &&
-          target.nodes.length) {
-        process(prefix, wrapNodes(target.nodes), ignored);
+      if (target.constructor.name === 'AtRule') {
+        if (typeof target.nodes !== 'undefined' && target.nodes.length) {
+          process(prefix, wrapNodes(target.nodes), ignored);
+        }
       }
 
       if (target.constructor.name !== 'Rule') {
