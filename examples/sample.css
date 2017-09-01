@@ -1,6 +1,6 @@
 .outside {}
 
-@prefix block not(.not-target, /ignore/);
+@namespace block;
 
 .box {}
 
@@ -10,13 +10,6 @@
 .inner .ignore-2,
 .inner .target {}
 
-@prefix ;
-
-.box {}
-
-@prefix block2;
-
-.box {}
 &:hover {}
 [href^="https"][target="_blank"] {}
 

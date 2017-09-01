@@ -1,21 +1,15 @@
 import postcss from 'postcss';
 import _ from 'lodash';
 
-const WARNING_TEXT = '@namespace is deprecated! please use @prefix';
-
 const defaultOpts = {
-  token: '-'
+  token: ' '
 };
 
 export default postcss.plugin('postcss-namespace', (opts = {}) => {
   opts = Object.assign({}, defaultOpts, opts);
 
-  return (css, result) => {
-    css.walkAtRules(/namespace|prefix/, rule => {
-      if (rule.name === 'namespace') {
-        result.warn(WARNING_TEXT, {node: rule});
-        return rule;
-      }
+  return css => {
+    css.walkAtRules(/namespace/, rule => {
       const prefix = rule.params.match(/^[^\s]*/)[0];
       const ignored = (params => {
         const matches = params.match(/not\((.+)\)/);
@@ -32,6 +26,8 @@ export default postcss.plugin('postcss-namespace', (opts = {}) => {
           return new RegExp(_.escapeRegExp(matches[1]));
         });
       })(rule.params);
+
+
       process(prefix, rule, ignored);
       rule.remove();
     });
@@ -57,12 +53,9 @@ export default postcss.plugin('postcss-namespace', (opts = {}) => {
         continue;
       }
 
-      const re = /[#.][^\s#.%[:]+/g;
+      const re = /[#.\[\&].+/g;
       target.selector = target.selector.replace(re, selector => {
-        if (ignored.length && isIgnored(selector)) {
-          return selector;
-        }
-        return `${selector[0]}${prefix}${opts.token}${selector.slice(1)}`;
+        return `.${prefix}${opts.token}${selector}`;
       });
     }
 
