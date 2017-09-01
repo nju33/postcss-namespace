@@ -1,21 +1,18 @@
 .outside {}
 
-.block__box {}
+.block .box {}
 
-.block__inner .block__target {}
-.block__inner .not-target {}
-.block__inner .ignore-1 {}
-.block__inner .ignore-2,
-.block__inner .block__target {}
+.block .inner .target {}
+.block .inner .not-target {}
+.block .inner .ignore-1 {}
+.block .inner .ignore-2,
+.block .inner .target {}
 
-.box {}
-
-.block2__box {}
-&:hover {}
-[href^="https"][target="_blank"] {}
+.block &:hover {}
+.block [href^="https"][target="_blank"] {}
 
 @media screen and (min-width: 768px) {
-  #block2__media {}
-  #block2__media #block2__inner,
-  .block2__media .block2__inner.block2__box {}
+  .block #media {}
+  .block #media #inner,
+  .block .media .inner.box {}
 }

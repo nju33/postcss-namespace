@@ -1,14 +1,13 @@
 {
-  "name": "postcss-namespace",
-  "description": "PostCSS plugin that prefix a namespace to a selector",
-  "version": "1.1.1",
+  "name": "postcss-class-namespace",
+  "description": "PostCSS plugin that appends a class namespace to a selector",
+  "version": "0.1",
   "author": {
-    "name": "nju33",
-    "email": "sski0155+npm@gmail.com",
-    "url": "http://nju33.work/"
+    "name": "Jason Laster",
+    "email": "jason.laster.11@gmail.com",
   },
   "bugs": {
-    "url": "https://github.com/totora0155/postcss-namespace/issues"
+    "url": "https://github.com/jasonlaster/postcss-class-namespace/issues"
   },
   "dependencies": {
     "lodash": "^4.13.1",
@@ -38,7 +37,7 @@
     "gulp-rename": "^1.2.2",
     "xo": "^0.16.0"
   },
-  "homepage": "https://github.com/totora0155/postcss-namespace#readme",
+  "homepage": "https://github.com/jasonlaster/postcss-class-namespace#readme",
   "keywords": [
     "css",
     "postcss",
@@ -48,7 +47,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git@github.com:totora0155/postcss-namespace.git"
+    "url": "git@github.com:jasonlaster/postcss-class-namespace.git"
   },
   "scripts": {
     "prepublish": "npm run build",

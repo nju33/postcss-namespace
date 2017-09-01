@@ -15,9 +15,6 @@ function transform(plugin) {
 }
 
 test('namespace token', async t => {
-  t.is(await transform(namespace({token: '__'})), expect);
-});
-
-test('namespace bem', async t => {
-  t.is(await transform(namespace.bem), expect);
+  const actual = await transform(namespace());
+  t.is(actual, expect);
 });
